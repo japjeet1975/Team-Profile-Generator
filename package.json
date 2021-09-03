@@ -4,8 +4,7 @@
   "description": "Creating a webpage for displaying teams info",
   "main": "index.js",
   "directories": {
-    "lib": "lib",
-    "test": "tests"
+    "lib": "lib"
   },
   "scripts": {
     "test": "tests"
@@ -14,7 +13,7 @@
     "type": "git",
     "url": "git+https://github.com/japjeet1975/assignment10.git"
   },
-  "author": "",
+  "author": "japjeet",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/japjeet1975/assignment10/issues"
@@ -22,5 +21,12 @@
   "homepage": "https://github.com/japjeet1975/assignment10#readme",
   "devDependencies": {
     "jest": "^27.1.0"
-  }
+  },
+  "dependencies": {
+    "email-validator": "^2.0.4",
+    "inquirer": "^8.1.2"
+  },
+  "keywords": [
+    "assignment10"
+  ]
 }

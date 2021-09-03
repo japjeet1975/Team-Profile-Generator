@@ -1,6 +1,9 @@
-const fs = require('fs');
+
 const inquirer = require('inquirer');
-const internal = require('stream');
+const emailValidator = require('email-validator');
+
+const generateHtml= require('./src/generateHtml');
+const writeFile = require('./src/createFile');
 
 //Links to employee templates
 const Engineer = require('./lib/Engineer');
@@ -12,8 +15,7 @@ const Manager = require('./lib/Manager');
 //array for employee data
 
 const teamMembers = [];
-// let manager;
-// let teamTitle;
+
 
 // Create an array of questions for user input for manager
 const managerInfo = () => {
@@ -48,7 +50,13 @@ return 	inquirer.prompt([
 	  type: 'input',
 	  name: 'phoneNumber',
 	  message: 'What is your office phone Number ? (Required)',
-
+validate : phoneInput => {
+    if(isNaN(phoneInput)){
+        console.log("Please enter a valid office number");
+        return false;
+    }
+    else{return true;}
+}
       }
 
  ])
@@ -114,9 +122,9 @@ return inquirer.prompt([
         default: false
         }
 ])
-.then (employeeInfo => {
-	if(employeeInfo.role === 'Engineer'){
-		const {name, id, email, github} = employeeInfo;
+.then (employeeData => {
+	if(employeeData.role === 'Engineer'){
+		const {name, id, email, github} = employeeData;
 		engineer = new Engineer(name, id, email, github);
 		teamMembers.push(engineer);
 	}
@@ -126,7 +134,7 @@ return inquirer.prompt([
 		teamMembers.push(intern);
 	}
 
-	if(employeeInfo.confirmAddEmployee){
+	if(employeeData.confirmAddEmployee){
 		return employeeInfo();
 	}
 	return teamMembers;
@@ -141,7 +149,7 @@ managerInfo()
 	return generateHtml(teamMembers);
 })
 .then(pageHtml => {
-	return fs.writeFile(pageHtml);
+	return writeFile(pageHtml);
 })
 .catch(err => {
 	console.log(err);
